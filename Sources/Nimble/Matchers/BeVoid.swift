@@ -2,10 +2,10 @@ import Foundation
 
 /// A Nimble matcher that succeeds when the actual value is Void.
 public func beVoid() -> Predicate<()> {
-    return Predicate.fromDeprecatedClosure { actualExpression, failureMessage in
-        failureMessage.postfixMessage = "be void"
+    return Predicate.defineNilable("be void") { actualExpression, message in
         let actualValue: ()? = try actualExpression.evaluate()
-        return actualValue != nil
+        let bool = actualValue != nil
+        return PredicateResult(bool: bool, message: message)
     }
 }
 
